@@ -47,7 +47,7 @@ AFRAME.registerComponent('modulador', {
                 componente = 'geometry';
                 let scale_aleat = Math.random() * 1.5 + 0.5; // Escala entre 0.5 y 2
                 let primitive = self.hijo.getAttribute('geometry').primitive; 
-                props = {primitive: primitive, height: scale_aleat, radius: scale_aleat};
+                props = {primitive: primitive, radius: scale_aleat};
             }
 
             if (data == 'posición') {
