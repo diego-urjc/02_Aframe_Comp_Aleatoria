@@ -34,33 +34,54 @@ AFRAME.registerComponent('modulador', {
 
         setInterval( function () {    
             console.log('modulador (interval)');
-            let componente, props;
+
+            let props;
 
             if (data == 'color') {
-                componente = 'material';
                 let color_aleat = '#' + Math.floor(Math.random() * 0x1000000)
                     .toString(16).padStart(6, '0');
-                props = {color: color_aleat};
+                props = {
+                    property: 'material.color',
+                    to: color_aleat,
+                    dur: 3000
+                };
+                self.hijo.setAttribute('animation', props);
             }
 
             if (data == 'tamano') {
-                componente = 'geometry';
                 let scale_aleat = Math.random() * 1.5 + 0.5; // Escala entre 0.5 y 2
-                let primitive = self.hijo.getAttribute('geometry').primitive; 
-                props = {primitive: primitive, radius: scale_aleat};
+                props = {
+                    property: 'geometry.radius', // Cambia esto si no es una esfera
+                    to: scale_aleat,
+                    dur: 3000
+                };
+                self.hijo.setAttribute('animation', props);
             }
 
-            if (data == 'posición') {
-                componente = 'position';
-                let x = (Math.random() - 0.5) * 4; // Rango entre -2 y 2
-                let y = (Math.random() - 0.5) * 4 + 1; // Rango entre -1 y 3
+            if (data == 'posicion') {
+                let x = (Math.random() - 0.5) * 4; // Rango entre -2 y 3
+                let y = (Math.random() - 0.5) * 4 + 1; // Rango entre -1 y 4
                 let z = (Math.random() - 0.5) * 4 - 3; // Rango entre -5 y -1
-                props = {x: x, y: y, z: z};
+                
+                self.hijo.setAttribute('animation__x', {
+                    property: 'position.x',
+                    to: x,
+                    dur: 30
+                });
+
+                self.hijo.setAttribute('animation__y', {
+                    property: 'position.y',
+                    to: y,
+                    dur: 30
+                });
+
+                self.hijo.setAttribute('animation__z', {
+                    property: 'position.z',
+                    to: z,
+                    dur: 3000
+                });
             }
             
-            if (componente && props) {
-                self.hijo.setAttribute(componente, props);
-            }
         }, 3000);
     }
 });
