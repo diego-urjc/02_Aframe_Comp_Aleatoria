@@ -11,6 +11,13 @@ AFRAME.registerComponent('objeto', {
         this.hijo.setAttribute('material', {});
         this.el.appendChild(this.hijo);
     },
+
+    update: function () {
+        console.log('objeto (update)');
+        let primitive = this.primitives[this.data];      
+        this.hijo.setAttribute('geometry', {primitive: primitive});
+    }
+
     
 });
 
