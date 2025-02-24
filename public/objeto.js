@@ -10,6 +10,7 @@ AFRAME.registerComponent('objeto', {
         this.hijo.setAttribute('geometry', {primitive: primitive});
         this.hijo.setAttribute('material', {});
         this.el.appendChild(this.hijo);
+        
     },
 
     update: function () {
@@ -18,9 +19,7 @@ AFRAME.registerComponent('objeto', {
         this.hijo.setAttribute('geometry', {primitive: primitive});
     }
 
-    
 });
-
 
 AFRAME.registerComponent('modulador', {
     dependencies: ['objeto'],
@@ -85,3 +84,6 @@ AFRAME.registerComponent('modulador', {
         }, 3000);
     }
 });
+
+
+
