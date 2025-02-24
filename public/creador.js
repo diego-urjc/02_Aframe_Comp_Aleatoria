@@ -1,44 +1,32 @@
 AFRAME.registerComponent('creador', {
-    schema: {
-        max: { type: 'number', default: 10 },   // Número máximo de objetos a crear
-        eliminar: { type: 'number', default: 5 } // Cuántos objetos eliminar después de crearlos
-    },
-    
+    schema: { max: { type: 'number', default: 10 } },
+
     init: function () {
-        let self = this;
-        this.contador = 0; 
-        this.entidades = []; 
+        let self = this; 
+        let contador = 0;
 
-        this.intervalo = setInterval(function () {
-            if (self.contador >= self.data.max) {
-                console.log('Máximo alcanzado, deteniendo creación');
-                clearInterval(self.intervalo);
-                return; 
+        let intervalo = setInterval(function () {
+            if (contador >= self.data.max) { 
+                console.log('Máximo alcanzado, deteniendo creación.');
+                clearInterval(intervalo);
+                return;
             }
-
-            // Crear nueva entidad
+            // nueva entidad
             let entidad = document.createElement('a-entity');
-            entidad.setAttribute('objeto', 'esfera');  
-            entidad.setAttribute('modulador', 'posicion');
+            entidad.setAttribute('objeto', 'esfera');  // Añadir el componente objeto
+            entidad.setAttribute('modulador', 'posicion');  // Añadir el componente modulador
 
-            // Posición aleatoria
-            let x = (Math.random() - 0.5) * 6;
-            let y = Math.random() * 3 + 1;
-            let z = (Math.random() - 0.5) * 6;
-            entidad.setAttribute('position', { x: x, y: y, z: z });
+            // Posición aleatoria en la escena
+            let posX = (Math.random() - 0.5) * 10; // Rango -5 a 5
+            let posY = Math.random() * 3 + 1; // Rango 1 a 4
+            let posZ = (Math.random() - 0.5) * 10; // Rango -5 a 5
+            entidad.setAttribute('position', `${posX} ${posY} ${posZ}`);
 
             // Agregar la entidad a la escena
             self.el.appendChild(entidad);
-            self.entidades.push(entidad); // Guardar referencia de la entidad
 
-            self.contador++;
-
-            if (self.entidades.length > self.data.eliminar) {
-                let entidadEliminar = self.entidades.shift(); // Elimina el primer elemento del array
-                entidadEliminar.parentNode.removeChild(entidadEliminar);
-                console.log('Entidad eliminada');
-            }
-
-        }, 1000); // un segundo
+            contador++; // Incrementar el contador
+   
+        }, 1000);
     }
 });
