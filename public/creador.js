@@ -1,32 +1,52 @@
 AFRAME.registerComponent('creador', {
-    schema: { max: { type: 'number', default: 10 } },
+    schema: {
+        max: { type: 'number', default: 10 },   // Número máximo de objetos a crear
+        eliminar: { type: 'number', default: 5 } // Cuántos objetos eliminar después de crearlos
+    },
 
     init: function () {
-        let self = this; 
-        let contador = 0;
+        let self = this;
+        this.contador = 0; 
+        this.entidades = [];
 
-        let intervalo = setInterval(function () {
-            if (contador >= self.data.max) { 
-                console.log('Máximo alcanzado, deteniendo creación.');
-                clearInterval(intervalo);
-                return;
+
+        this.intervalo = setInterval(function () {
+            if (self.contador >= self.data.max) {
+                console.log('Máximo alcanzado, deteniendo creación');
+                clearInterval(self.intervalo);
+                return; 
             }
+
             // nueva entidad
             let entidad = document.createElement('a-entity');
-            entidad.setAttribute('objeto', 'esfera');  // Añadir el componente objeto
-            entidad.setAttribute('modulador', 'posicion');  // Añadir el componente modulador
+            entidad.setAttribute('objeto', 'esfera');  
+            entidad.setAttribute('modulador', 'posicion');
 
-            // Posición aleatoria en la escena
-            let posX = (Math.random() - 0.5) * 10; // Rango -5 a 5
-            let posY = Math.random() * 3 + 1; // Rango 1 a 4
-            let posZ = (Math.random() - 0.5) * 10; // Rango -5 a 5
-            entidad.setAttribute('position', `${posX} ${posY} ${posZ}`);
+
+        
+            // Posición aleatoria
+            let x = (Math.random() - 0.5) * 6;
+            let y = Math.random() * 3 + 1;
+            let z = (Math.random() - 0.5) * 6;
+            entidad.setAttribute('position', { x: x, y: y, z: z });
+
 
             // Agregar la entidad a la escena
             self.el.appendChild(entidad);
+            self.entidades.push(entidad); // Guardar referencia de la entidad
+
 
             contador++; // Incrementar el contador
+            self.contador++;
+
    
-        }, 1000);
+            if (self.entidades.length > self.data.eliminar) {
+                let entidadEliminar = self.entidades.shift(); // Elimina el primer elemento del array
+                entidadEliminar.parentNode.removeChild(entidadEliminar);
+                console.log('Entidad eliminada');
+            }
+
+        }, 1000); // un segundo
+
     }
 });
