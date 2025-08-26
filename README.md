@@ -1,4 +1,4 @@
-# 03_AFrame_Comp_Aleatoria
+# 02_AFrame_Comp_Aleatoria
 
 Repositorio plantilla para la práctica "Escena aleatoria" del tema "Componentes A-Frame". 
 
